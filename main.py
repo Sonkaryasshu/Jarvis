@@ -1,18 +1,9 @@
 import pyttsx3
+import datetime
+import speech_recognition as sr
 
 engine = pyttsx3.init('espeak')
-voices = engine.getProperty('voices')
-# for v in voices:
-#     print(v.id)
-# for voice in voices:
-#    engine.setProperty('voice', voice.id)
-#    print(voice.id)
-#    engine.say('The quick brown fox jumped over the lazy dog.')
-#    engine.runAndWait()
-
 engine.setProperty('voice', 'english-us')
-v = engine.getProperty('voice')
-print(v)
 
 ''' VOLUME '''
 voulume = engine.getProperty('volume')
@@ -23,11 +14,37 @@ rate = engine.getProperty('rate')   # getting details of current speaking rate
 print (rate)                        #printing current voice rate
 
 
-engine.say("Hello friends, this is jarvis")
-engine.runAndWait()
 def speak(audio):
     engine.say(audio)
     engine.runAndWait()
 
+def wishMe():
+    hour = int(datetime.datetime.now().hour)
+    if hour<12:
+        speak("Good morning sir")
+    elif hour>=12 and hour<18:
+        speak("Good afternoon sir")
+    else:
+        speak("Good evening sir")
+    speak("this is jarvis, how may i help you")
+
+def takeCommand():
+
+    r = sr.Recognizer()
+    with sr.Microphone() as micIn:
+        print("Listening...")
+        audio = r.listen(micIn)
+    
+    try:
+        print("Recognizing...")
+        query = r.recognize_sphinx(audio, language='en-in')
+        print(f"User : {query}\n")
+    except Exception as err:
+        print(err)
+        print("Please say that again")
+        return "None"
+    return query
+
 if __name__ == "__main__":
-    speak('hello brother')
+    wishMe()
+    takeCommand()
