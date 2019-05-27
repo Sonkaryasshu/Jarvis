@@ -4,6 +4,7 @@ import speech_recognition as sr
 import wikipedia
 import os
 import webbrowser
+import smtplib
 
 engine = pyttsx3.init('sapi5')
 engine.setProperty('voice', 'english-us')
@@ -44,10 +45,18 @@ def takeCommand():
         print(f"User : {query}\n")
     except Exception as err:
         print(err)
-        print("Sorry sir! Please say that again")
         speak("Sorry sir! Please say that again")
         return "None"
     return query
+
+def sendEmail(to,body):
+    server = smtplib.SMTP('smtp.gmail.com',port=587)
+    server.ehlo()
+    server.starttls()
+    server.login('myMail@gmail.com','myPass')
+    body = body + '\nThis is an automatic mail from Jarvis.'
+    server.sendmail('myMail@gmail.com', to, body)
+    server.close()
 
 if __name__ == "__main__":
     wishMe()
@@ -60,14 +69,24 @@ if __name__ == "__main__":
             speak(query)
         elif 'time' in query:
             time = datetime.datetime.now().time().strftime('%H:%M')
-            speak('time is'+time)
+            speak('Sir,the time is'+time)
         elif 'open code' in query:
-            path = os.startfile('C:\\Program Files\\Microsoft VS Code\\Code.exe')
-            os.open(path)
+            path = 'C:\\Program Files\\Microsoft VS Code\\Code.exe'
+            os.startfile(path)
         elif 'open notepad' in query:
-            path = os.listdir("C:\WINDOWS\system32\notepad.exe")
+            path = "C:\WINDOWS\system32\\notepad.exe"
             os.startfile(path)
         elif 'open youtube' in query:
             webbrowser.open('www.youtube.com')
+        elif 'email to kuldeep' in query:
+            try:
+                speak('What should i say?')
+                body = takeCommand()
+                to = 'kuldeepMail@gmail.com'
+                sendEmail(to,body)
+                speak('Email has been sent!')
+            except Exception as e:
+                print(e)
+                speak('Sorry sir, their was a problem in sending mail. Please try again.')
         elif 'shutdown' in query:
             exit(0)
