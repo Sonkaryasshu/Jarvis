@@ -12,14 +12,15 @@ Following python packages are required:
 - smtplib
 - datetime
 - os
+
+***Note -*** If you dont't have any of this package not installed on your system, you can easily install that package by running command `pip install <package-name>` or `pip3 install <package-name>`.
+ex: `pip3 install wikipedia`
 #### Additional requirements:
 To send  email from this program you need a mail-id of `gmail.com` domain and you have to enable less secured applications on your google account.
 
 You also need to add your email-id and password under `sendEmail` function and the receiver's email-id at the `main` section of our program under the `email to <reciever-name>` section.
 
-***Note -*** If you dont't have any of this package not installed on your system, you can easily install that package by running command `pip install <package-name>` or `pip3 install <package-name>`.
-ex: `pip3 install wikipedia`
-### Steps to run it on your system:
+## Steps to run it on your system:
 
 **Note:** I am using python-3.6.8
 
